@@ -1,22 +1,12 @@
-# Radio
+# [Radio](https://currentflow.github.io/radio/)
 
-- Source to find stream urls:
-  - https://www.radio-browser.info
-  - https://fmstream.org
-
-  - https://css-tricks.com/lets-create-a-custom-audio-player/
-
-
-  ***
-  - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
-  - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
-  - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API
-
-  - https://blogs.perficient.com/2017/12/19/how-to-customize-your-own-html5-audio-player/
-
-
-
-  - https://www.w3schools.com/tags/ref_av_dom.asp
+- [mozilla: Audio Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
+- [mozilla: Web_Audio_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [mozilla: Web_Audio_API Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
+- [w3schools: Audio Element](https://www.w3schools.com/tags/ref_av_dom.asp)  
+- stream urls:
+  - [radio-browser.info](https://www.radio-browser.info)
+  - [fmstream.org](https://fmstream.org)
 
 ## Methods
 - load() - 	Re-loads the audio/video element
