@@ -1,12 +1,6 @@
 # [Radio](https://currentflow.github.io/radio/)
 
-- [mozilla: Audio Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
-- [mozilla: Web_Audio_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-- [mozilla: Web_Audio_API Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
-- [w3schools: Audio Element](https://www.w3schools.com/tags/ref_av_dom.asp)  
-- stream urls:
-  - [radio-browser.info](https://www.radio-browser.info)
-  - [fmstream.org](https://fmstream.org)
+<br>
 
 ## Methods
 - load() - 	Re-loads the audio/video element
@@ -62,3 +56,14 @@
 - timeupdate - 	Fires when the current playback position has changed
 - volumechange - 	Fires when the volume has been changed
 - waiting - 	Fires when the video stops because it needs to buffer the next frame
+
+<br>
+
+## Resources
+- [mozilla: Audio Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
+- [mozilla: Web_Audio_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+- [mozilla: Web_Audio_API Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
+- [w3schools: Audio Element](https://www.w3schools.com/tags/ref_av_dom.asp)  
+- stream urls:
+  - [radio-browser.info](https://www.radio-browser.info)
+  - [fmstream.org](https://fmstream.org)
