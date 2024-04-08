@@ -34,9 +34,12 @@ export let stations = [
   { 
     title: "MSNBC",
     description: "News & Politics",
-    // url: "https://tunein.cdnstream1.com/3511_96.mp3"    
+    url: "https://tunein.cdnstream1.com/3511_96.mp3"    
+  }, 
+  { 
+    title: "MSNBC2",
+    description: "News & Politics",
     url: "http://peridot.streamguys.com:7850/live"    
-    // url: "http://peridot.streamguys.com:7850/live-mp3"
   }, 
   { 
     title: "CNN",
