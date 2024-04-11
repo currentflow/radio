@@ -39,13 +39,14 @@ self.addEventListener('fetch', (event) => {
 	// console.log("Service worker Fetch Event");
 	// ignore POST requests etc
 	if (event.request.method !== 'GET') return;
-	if (!event.request.url.pathname.startsWith('/radio/')) {
-		console.log("fetching outside resource");
-    return;
-  }
-	if (event.request.url.pathname.startsWith('/radio/')) {
-		console.log("fetching internal resource");
-  }
+	// if (!event.request.url.pathname.startsWith('/radio/')) {
+	// 	console.log("fetching outside resource");
+	// 	event.respondWith(fetch(event.request));
+  //   return;
+  // }
+	// if (event.request.url.pathname.startsWith('/radio/')) {
+	// 	console.log("fetching internal resource");
+  // }
 
 
 
@@ -60,6 +61,12 @@ self.addEventListener('fetch', (event) => {
 			if (response) {
 				return response;
 			}
+		}
+
+		if (!url.pathname.startsWith('/radio/')) {
+			console.log("fetching outside resource");
+			event.respondWith(fetch(event.request));
+			return;
 		}
 
 		// // for everything else, try the network first, but
