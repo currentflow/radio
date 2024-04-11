@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 // store init
 let init = ({ 
   storage_name: "radio_store",
-  version: '0.0.1',
+  version: '0.0.2',
   volume: 0.5,
 });
 

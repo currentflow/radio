@@ -63,11 +63,11 @@ self.addEventListener('fetch', (event) => {
 			}
 		}
 
-		if (!url.pathname.startsWith('/radio/')) {
-			console.log("fetching outside resource");
-			event.respondWith(fetch(event.request));
-			return;
-		}
+		// if (!url.pathname.startsWith('/radio/')) {
+		// 	console.log("fetching outside resource");
+		// 	event.respondWith(fetch(event.request));
+		// 	return;
+		// }
 
 		// // for everything else, try the network first, but
 		// // fall back to the cache if we're offline

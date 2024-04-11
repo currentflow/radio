@@ -67,6 +67,7 @@ git push
 <br>
 
 ## Resources
+-[web.dev:PWA](https://web.dev/learn/pwa)
 - [mozilla: Audio Element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
 - [mozilla: Web_Audio_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - [mozilla: Web_Audio_API Tutorial](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API)
