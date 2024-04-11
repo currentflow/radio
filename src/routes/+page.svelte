@@ -67,6 +67,10 @@
     }
 	}
 
+  onMount(() => {
+    audioObj.crossOrigin = "anonymous";
+  })
+
   onDestroy(() => {
     if (audioObj) {
 			audioObj.pause();
