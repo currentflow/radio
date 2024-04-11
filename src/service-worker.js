@@ -36,6 +36,13 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+
+	if (event.request.destination === "audio") {
+    console.log('audio intercept...');
+    return;
+  };  
+
+	
 	// console.log("Service worker Fetch Event");
 	// ignore POST requests etc
 	if (event.request.method !== 'GET') return;
@@ -62,12 +69,6 @@ self.addEventListener('fetch', (event) => {
 				return response;
 			}
 		}
-
-		// if (!url.pathname.startsWith('/radio/')) {
-		// 	console.log("fetching outside resource");
-		// 	event.respondWith(fetch(event.request));
-		// 	return;
-		// }
 
 		// // for everything else, try the network first, but
 		// // fall back to the cache if we're offline
