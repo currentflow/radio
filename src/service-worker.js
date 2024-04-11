@@ -36,15 +36,18 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-	const url = new URL(event.request.url);
-	console.log("Service worker Fetch Event");
+	// console.log("Service worker Fetch Event");
 	// ignore POST requests etc
 	if (event.request.method !== 'GET') return;
-
-	if (!url.host.startsWith('https://currentflow.github.io/radio/')) {
+	if (!event.request.url.pathname.startsWith('/radio/')) {
 		console.log("fetching outside resource");
     return;
   }
+	if (event.request.url.pathname.startsWith('/radio/')) {
+		console.log("fetching internal resource");
+  }
+
+
 
 	async function respond() {
 		const url = new URL(event.request.url);
@@ -59,33 +62,33 @@ self.addEventListener('fetch', (event) => {
 			}
 		}
 
-		// for everything else, try the network first, but
-		// fall back to the cache if we're offline
-		try {
-			const response = await fetch(event.request);
+		// // for everything else, try the network first, but
+		// // fall back to the cache if we're offline
+		// try {
+		// 	const response = await fetch(event.request);
 
-			// if we're offline, fetch can return a value that is not a Response
-			// instead of throwing - and we can't pass this non-Response to respondWith
-			if (!(response instanceof Response)) {
-				throw new Error('invalid response from fetch');
-			}
+		// 	// if we're offline, fetch can return a value that is not a Response
+		// 	// instead of throwing - and we can't pass this non-Response to respondWith
+		// 	if (!(response instanceof Response)) {
+		// 		throw new Error('invalid response from fetch');
+		// 	}
 
-			if (response.status === 200) {
-				cache.put(event.request, response.clone());
-			}
+		// 	if (response.status === 200) {
+		// 		cache.put(event.request, response.clone());
+		// 	}
 
-			return response;
-		} catch (err) {
-			const response = await cache.match(event.request);
+		// 	return response;
+		// } catch (err) {
+		// 	const response = await cache.match(event.request);
 
-			if (response) {
-				return response;
-			}
+		// 	if (response) {
+		// 		return response;
+		// 	}
 
-			// if there's no cache, then just error out
-			// as there is nothing we can do to respond to this request
-			throw err;
-		}
+		// 	// if there's no cache, then just error out
+		// 	// as there is nothing we can do to respond to this request
+		// 	throw err;
+		// }
 	}
 
 	event.respondWith(respond());
