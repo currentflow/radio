@@ -42,7 +42,7 @@ header {
   border-radius: 0.5rem 0.5rem 0 0;
 
   & h1 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin: 0;
   }
 }
@@ -120,4 +120,37 @@ footer {
 
 .unset {
   user-select: none;
+}
+
+.offline {
+  background: var(--panel-color);
+  padding: 0.75rem 1rem;
+  box-shadow: 
+    0.5rem 0.5rem 0 0 black;
+    border-radius: 0.5rem;
+  /* grid-row: span 3; */
+  height: min-content;
+  text-align: right;
+  
+  & h1 {    
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  /* margin-top: 25%; */
+}
+
+.btn_play {
+  font-size: 2em;
+}
+.btn_mute {
+  font-size: 1.5em;
+}
+
+@media (min-height: 480px) {
+  header h1 {
+    font-size: 1.25rem;
+  }
+  .btn_play {
+    font-size: 3em;
+  }
 }

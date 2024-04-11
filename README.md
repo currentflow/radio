@@ -1,5 +1,12 @@
 # [Radio](https://currentflow.github.io/radio/)
 
+
+``` sh
+npm run gh-pages
+git add . && git commit -m "update"
+git push
+```
+
 <br>
 
 ## Methods

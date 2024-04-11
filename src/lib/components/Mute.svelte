@@ -1,12 +1,10 @@
 <script>
   export let muted = false,
-             fontsize = "1em",
              duration = "300ms";
 </script>
 
-<button class="unset" 
-  style="--fontsize: {fontsize}; 
-         --duration: {duration};"
+<button class="unset btn_mute" 
+  style="--duration: {duration};"
   on:click={() =>  muted = !muted } >
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class:muted>
     <path class="bell" 
@@ -25,7 +23,7 @@
     /* scale: 4; */
     width: 1.5em;
     height: 1.5em;
-    font-size: var(--fontsize);
+    font-size: inherit;
     fill: currentColor;
   }
 	.muted { transition: var(--duration); }

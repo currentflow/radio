@@ -1,108 +1,69 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="./favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
-	<style data-sveltekit>/* #region reset 2/6/24 */
-:root {
-  --font-size: 16px;
-  --text-color: hsl(210,30%,24%);
-  --background-color: #fff;
-  --sans-serif: sans-serif;
-  -webkit-tap-highlight-color: transparent;
-}
-:where(*, *::before, *::after) { box-sizing: inherit; }
-html {
-  font-size: var(--font-size);
-  text-size-adjust: 100%;
-  box-sizing: border-box;
-}
-body {
-  height: 100dvh;
-  font-family: var(--sans-serif);
-  font-size: 1em;
-  line-height: 1.5;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  margin: 0;
-}
-:where(h1) { 
-  line-height: 1.5; 
-}
-.unset { 
-  all: unset;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-svg {
-  fill: currentColor;
-  vertical-align: middle;
-}
-a { color: var(--link-color); }
-/* #endregion reset */
-:root {
-  --max-width: 600px;
-  --text-color: hsl(37 100% 56%);
-  --background-color: hsl(0,0%,7%);
-  --panel-color: hsl(0,0%,16%);
-}
-.app {
-  display: grid;
-  grid-template-rows: min-content 1fr min-content;
-  gap: 1rem;
-  
-  height: 100%;
-  max-width: var(--max-width);
-  padding: 0.5rem;
-  margin: 0 auto;
-  
-  text-shadow: 0.0625em 0.0625em 0.0625em hsl(0 0% 0%);
-  @media (min-width: 400px) {
-    padding: 1rem;
-  }
-}
-main {
-  background: var(--panel-color);
-  padding: 0.75rem 2rem;
-  box-shadow: 
-    0.5rem 0.5rem 0 0 black;
-  border-radius: 0.5rem;
-  margin-top: 20% ;
-  /* text-align: right; */
-}
-</style>
-	</head>
-	<body data-sveltekit-preload-data="tap">
-		<div style="display: contents">  <div class="app s-y_bCXRrkrYfP">
-      <main>404</main>
-    </div> 
-			
-			<script>
-				{
-					__sveltekit_dev = {
-						base: new URL(".", location).pathname.slice(0, -1),
-						env: {}
-					};
 
-					const element = document.currentScript.parentElement;
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="./favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+  <style>
+    @import "./lib/styles/reset.css";
+      
+      :root {
+      --max-width: 600px;
+      --text-color: hsl(37 100% 56%);
+      --background-color: hsl(0,0%,7%);
+      --panel-color: hsl(0,0%,16%);
+    }
 
-					const data = [null,{"type":"data","data":{},"uses":{}}];
+    .app {      
+      height: 100%;
+      max-width: var(--max-width);
+      padding: 0.5rem;
+      margin: 0 auto;
+      
+      text-shadow: 0.0625em 0.0625em 0.0625em hsl(0 0% 0%);
+      @media (min-width: 400px) {
+        padding: 1rem;
+      }
+    }
 
-					Promise.all([
-						import("/@fs/D:/roble/Desktop/sveltekit/radio/node_modules/@sveltejs/kit/src/runtime/client/entry.js"),
-						import("/@fs/D:/roble/Desktop/sveltekit/radio/.svelte-kit/generated/client/app.js")
-					]).then(([kit, app]) => {
-						kit.start(app, element, {
-							node_ids: [0, 2],
-							data,
-							form: null,
-							error: null
-						});
-					});
-				}
-			</script>
-		</div>
-	</body>
+    header {
+      display: flex;
+      align-items: center;
+      gap: 0 1ch;
+      background: var(--panel-color);
+      padding: 0.75rem 1rem;
+      box-shadow: 
+        0.5rem 0.5rem 0 0 black;
+      border-radius: 0.5rem;
+
+      & h1 {
+        font-size: 1rem;
+        margin: 0;
+      }
+      & div { flex: 1;}
+    }
+    
+    @media (min-height: 480px) {
+      header h1 {
+        font-size: 1.25rem;
+      }
+      .btn_play {
+        font-size: 3em;
+      }
+    }
+  </style>
+</head>
+
+<body data-sveltekit-preload-data="tap">
+  <div class="app">
+    <header>
+      <h1>404:</h1>
+      <div>Not Found</div>
+      <a href="http://localhost:5173">Home</a>
+    </header>
+  </div>
+</body>
+
 </html>

@@ -1,13 +1,11 @@
 <script>
   import { dbltap } from "$lib/store";
   export let playing = false,
-             fontsize = "1em",
              duration = "300ms";
 </script>
 
-<button class="unset" 
-  style="--fontsize: {fontsize}; 
-         --duration: {duration};"
+<button class="unset btn_play" 
+  style="--duration: {duration};"
   use:dbltap on:dbltap 
   on:click on:pointerdown>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class:playing>
@@ -20,7 +18,7 @@
   svg {
     width: 1.5em;
     height: 1.5em;
-    font-size: var(--fontsize);
+    font-size: inherit;
   }
 	path {
 		transition: var(--duration);
