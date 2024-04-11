@@ -3,6 +3,7 @@ import { build, files, version } from '$service-worker';
 
 // Create a unique cache name for this deployment
 const CACHE = `cache-${version}`;
+console.log("cache name", CACHE)
 
 const ASSETS = [
 	...build, // the app itself
@@ -10,7 +11,8 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
-	console.log("install");
+	console.log("Service worker installed");
+
 	// Create a new cache and add all files to it
 	async function addFilesToCache() {
 		const cache = await caches.open(CACHE);
@@ -21,7 +23,8 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-	console.log("activate");
+	console.log("Service worker activated");
+
 	// Remove previous cached data from disk
 	async function deleteOldCaches() {
 		for (const key of await caches.keys()) {
@@ -33,10 +36,15 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-	
-	console.log("fetch");
+	const url = new URL(event.request.url);
+	console.log("Service worker Fetch Event");
 	// ignore POST requests etc
 	if (event.request.method !== 'GET') return;
+
+	if (!url.host.startsWith('https://currentflow.github.io/radio/')) {
+		console.log("fetching outside resource");
+    return;
+  }
 
 	async function respond() {
 		const url = new URL(event.request.url);
