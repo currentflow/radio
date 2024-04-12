@@ -6,26 +6,30 @@
   import Range from "$lib/components/Range.svelte";
   import Info from "$lib/components/Info.svelte";
 
+
   let title = "Radio",
       selectedStation = null,
       timer, timerDelay = 182000,
-      debug = false;
+      debug = true,
+      message = null;
       
   let audioObj,
       loading = false,
-      paused = true,
+      paused,
       currentTime, duration,
-      ended, played,
-      cycle, error,
+      ended, played, cycle, 
+      errorMessage = null,
 			muted = false;
 
   $: { if (audioObj) {
     audioObj.volume = $store.volume;
+    paused = audioObj.paused;
   }}
 
   async function loadStation(station = stations[0]) {
     if (!paused) stopAudio();
 
+    errorMessage = null;
     selectedStation = station;
     audioObj.src = selectedStation.url;
     await tick();
@@ -60,12 +64,19 @@
 			audioObj.removeAttribute('src');
 		  selectedStation = null;
       // reset..
-      paused = audioObj?.paused;
+      // paused = audioObj?.paused;
       duration = audioObj?.duration;
 		} catch (error) { 
       console.log("stopAudio: Error"); 
     }
 	}
+
+  // function handleError() {
+  //   audioObj.paused = true;
+  //   paused = audioObj?.paused;
+  //   console.log("DEBUG");
+  //   stopAudio();
+  // }
 
   onMount(() => {
     audioObj.crossOrigin = "anonymous";
@@ -110,11 +121,11 @@
       src={audioObj?.src}
       networkState={audioObj?.networkState} 
       readyState={audioObj?.readyState}
-      currentTime={formatTime(currentTime)} 
-      duration={formatTime(duration)}
+      currentTime={currentTime} 
+      duration={duration}
       {loading} {paused}
       {ended} {cycle}
-      volume={$store.volume} {muted}
+      volume={$store.volume} {muted} {errorMessage}
     />
   {/if}
 
@@ -129,6 +140,7 @@
     bind:volume={$store.volume}
     bind:muted
     on:loadstart={() => {
+      message = null;
       loading = true;
       cycle = "loadstart";
       if (debug) console.log("on:loadstart");
@@ -140,6 +152,7 @@
     on:canplay={() => {
       loading = false;
       cycle = "canplay";
+      errorMessage = null;
       if (debug) console.log("on:canplay");
     }}
     on:play={() => {
@@ -147,6 +160,7 @@
       if (debug) console.log("on:play");
     }}
     on:playing={() => {
+      errorMessage = null;
       cycle = "playing";
       if (debug) console.log("on:playing");
     }}
@@ -156,6 +170,7 @@
     }}
     on:ended={() => {
       cycle = "ended";
+      errorMessage = "ended";
       if (debug) console.log("on:ended");
     }}
     on:emptied={() => {
@@ -164,25 +179,33 @@
     }}
     on:suspend={() => {
       cycle = "suspend";
+      loading = false;
+      errorMessage = "suspended: not getting data";
       if (debug) console.log("on:suspend");
     }}
     on:stalled={() => {
       cycle = "stalled";
+      loading = false;
+      errorMessage = "stalled: data is not available";
       if (debug) console.log("on:stalled");
     }}
     on:abort={() => {
       cycle = "abort";
+      loading = false;
+      errorMessage = "loading aborted";
       if (debug) console.log("on:abort");
     }}
     on:error={(error) => {
       cycle = "error";
+      loading = false;
+      errorMessage = audioObj?.error.message;
       if (debug) console.log("on:error", error);
     }}
     on:timeupdate={() => {
       // if (debug) console.log("on:timeupdate");
     }}
     on:volumechange={() => {
-      if (debug) console.log("on:volumechange");
+      // if (debug) console.log("on:volumechange");
     }}
   >
     <p><code>an error occurred</code></p>

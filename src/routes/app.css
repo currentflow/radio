@@ -48,7 +48,8 @@ header {
 }
 
 main {
-  overflow-y: auto;
+  overflow-y: auto;  
+  scrollbar-width: thin;
 }
 
 .station {

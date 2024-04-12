@@ -3,16 +3,25 @@ import { build, files, version } from '$service-worker';
 
 // Create a unique cache name for this deployment
 const CACHE = `cache-${version}`;
-console.log("cache name", CACHE)
+// console.log("cache name", CACHE)
 
 const ASSETS = [
 	...build, // the app itself
 	...files  // everything in `static`
 ];
 
-self.addEventListener('install', (event) => {
-	console.log("Service worker installed");
+// self.addEventListener("install", function (event) {
+//   console.log("Service worker installed");
 
+//   event.waitUntil(
+//     caches.open(CACHE).then(function (cache) {
+//       console.log("Installed cache: ", CACHE);
+//       return cache.addAll(ASSETS);
+//     })
+//   );
+// });
+
+self.addEventListener('install', (event) => {
 	// Create a new cache and add all files to it
 	async function addFilesToCache() {
 		const cache = await caches.open(CACHE);
@@ -22,9 +31,27 @@ self.addEventListener('install', (event) => {
 	event.waitUntil(addFilesToCache());
 });
 
-self.addEventListener('activate', (event) => {
-	console.log("Service worker activated");
 
+
+// self.addEventListener('activate', function(event) {
+// 	console.log("Service worker activated");
+//   // Deletes all caches not included in whitelist - 
+//   // ie, change in version number etc.
+//   event.waitUntil(
+//     caches.keys().then(function(cacheNames) {
+//       return Promise.all(
+//         cacheNames.map(function(cacheName) {
+//           if (CACHE !== cacheName) {
+//             console.log("Deleted cache: ", cacheName);
+//             return caches.delete(cacheName);
+//           }
+//         })
+//       );
+//     })
+//   );
+// });
+
+self.addEventListener('activate', (event) => {
 	// Remove previous cached data from disk
 	async function deleteOldCaches() {
 		for (const key of await caches.keys()) {
@@ -35,27 +62,48 @@ self.addEventListener('activate', (event) => {
 	event.waitUntil(deleteOldCaches());
 });
 
+
+
+
+// 	// If any fetch fails, 
+// self.addEventListener("fetch", function (event) {
+
+//   if (event.request.destination === "audio") {
+//     return;
+//   };  
+  
+//   if (event.request.method !== "GET") return;
+  
+//   event.respondWith(
+//     fetch(event.request).catch(function (error) {
+//       // validate request is for in-scope navigation
+//       if (
+//         event.request.destination !== "document" ||
+//         event.request.mode !== "navigate"
+//       ) {
+//         return;
+//       }
+      
+//       console.error("service worker: offline " + error);
+//       // load offline page
+//       return caches.open(CACHE).then(function (cache) {
+//         return cache.match(offlinePage);
+//       });
+//     })
+//   );
+// });
+
+
+
 self.addEventListener('fetch', (event) => {
 
+	// ignore audio requests 
 	if (event.request.destination === "audio") {
-    console.log('audio intercept...');
     return;
   };  
 
-	
-	// console.log("Service worker Fetch Event");
 	// ignore POST requests etc
 	if (event.request.method !== 'GET') return;
-	// if (!event.request.url.pathname.startsWith('/radio/')) {
-	// 	console.log("fetching outside resource");
-	// 	event.respondWith(fetch(event.request));
-  //   return;
-  // }
-	// if (event.request.url.pathname.startsWith('/radio/')) {
-	// 	console.log("fetching internal resource");
-  // }
-
-
 
 	async function respond() {
 		const url = new URL(event.request.url);
@@ -69,35 +117,6 @@ self.addEventListener('fetch', (event) => {
 				return response;
 			}
 		}
-
-		// // for everything else, try the network first, but
-		// // fall back to the cache if we're offline
-		// try {
-		// 	const response = await fetch(event.request);
-
-		// 	// if we're offline, fetch can return a value that is not a Response
-		// 	// instead of throwing - and we can't pass this non-Response to respondWith
-		// 	if (!(response instanceof Response)) {
-		// 		throw new Error('invalid response from fetch');
-		// 	}
-
-		// 	if (response.status === 200) {
-		// 		cache.put(event.request, response.clone());
-		// 	}
-
-		// 	return response;
-		// } catch (err) {
-		// 	const response = await cache.match(event.request);
-
-		// 	if (response) {
-		// 		return response;
-		// 	}
-
-		// 	// if there's no cache, then just error out
-		// 	// as there is nothing we can do to respond to this request
-		// 	throw err;
-		// }
 	}
-
 	event.respondWith(respond());
 });

@@ -1,5 +1,11 @@
 # [Radio](https://currentflow.github.io/radio/)
 
+### Todo
+- [ ] limit pause allowed
+- [ ] limit loading, stalled, error, waiting
+- [ ] 
+- [ ] 
+- [ ] 
 
 ``` sh
 npm run gh-pages

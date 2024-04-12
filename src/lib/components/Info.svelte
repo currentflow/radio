@@ -1,26 +1,25 @@
 <script>
+  import { formatTime } from "$lib/store";
   export let src,
     networkState, readyState,
     currentTime, duration, 
-    volume, muted,
-    loading, paused,
+    // volume, muted,
+    loading, paused, errorMessage,
     ended, cycle;
 
-  function formatTime(secs) {
-    const hours = secs >= 3600 ? Math.floor(secs / 3600) : 0;
-    const minutes = Math.floor((secs - hours * 3600) / 60);
-    const seconds = Math.floor(secs % 60);
-    const paddedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    const paddedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+  // function formatTime(secs) {
+  //   const hours = secs >= 3600 ? Math.floor(secs / 3600) : 0;
+  //   const minutes = Math.floor((secs - hours * 3600) / 60);
+  //   const seconds = Math.floor(secs % 60);
+  //   const paddedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  //   const paddedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
 
-    let res = hours
-      ? `${hours}:${paddedMinutes}:${paddedSeconds}`
-      : `${minutes}:${paddedSeconds}`;
+  //   let res = hours
+  //     ? `${hours}:${paddedMinutes}:${paddedSeconds}`
+  //     : `${minutes}:${paddedSeconds}`;
 
-    return res;
-  }
-
-    // $: formatedDuration = formatTime(duration);
+  //   return res;
+  // }
 
 </script>
 
@@ -29,13 +28,13 @@
   <div class="grid" style:flex=3>
     <div class="key">src</div>
     <!-- <div class="value" title={src}>{src || "empty string"}</div> -->
-    <div class="value" title={src}>{src?.split("/").pop() || "empty string"}</div>
+    <div class="value" title={src}>...{src?.split("/").pop() || "empty string"}</div>
     
     <div class="key" title="Current playback time in seconds">currentTime</div>
-    <div class="value">{currentTime}</div>
+    <div class="value">{formatTime(currentTime)}</div>
     
     <div class="key" title="Duration of the media in seconds">duration</div>
-    <div class="value">{duration}</div>
+    <div class="value">{formatTime(duration)}</div>
     
     <div class="key" title="    0 = NETWORK_EMPTY - audio/video has not yet been initialized
     1 = NETWORK_IDLE - audio/video is active and has selected a resource, but is not using the network
@@ -48,7 +47,7 @@
     2 = HAVE_CURRENT_DATA - data for the current playback position is available, but not enough data to play next frame/millisecond
     3 = HAVE_FUTURE_DATA - data for the current and at least the next frame is available
     4 = HAVE_ENOUGH_DATA - enough data available to start playing">readyState</div>
-    <div class="value">{readyState} </div>     
+    <div class="value">{readyState} </div> 
   </div>
   
   <div class="grid" style:flex=2>      
@@ -62,18 +61,21 @@
     <div class="value">{ended}</div>  
                  
     <div class="key" title="Triggered by element events">cycle</div>
-    <div class="value">:{cycle}</div>
-    
-    <div class="key" title="value: volume">volume</div>
-    <div class="value">{volume}</div>
-    
-    <div class="key" title="boolean: muted">muted</div>
-    <div class="value">{muted}</div>
+    <code class="value">{cycle}</code>
+
+       
+    {#if errorMessage}
+    <div class="errorMessage" title="errorMessage">
+      {errorMessage}
+    </div>
+    {/if}
   </div>
 </div>
+
 
 <style>
   .flex {
     margin: 1rem 0;
   }
+  .errorMessage { grid-column: span 2; }
 </style>
