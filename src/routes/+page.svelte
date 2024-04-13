@@ -11,7 +11,7 @@
       selectedStation = null,
       pauseTimer, pauseDelay = 120000,
       stallTimer, stallDelay = 10000,
-      suspendTimer, suspendDelay = 10000,
+      // suspendTimer, suspendDelay = 10000,
       errorTimer, errorDelay = 10000,
       debug = true,
       errorMessage = null;
@@ -185,12 +185,12 @@
     on:suspend={() => {
       cycle = "suspend";
       loading = false;
-      errorMessage = "suspended: not getting data";
+      // errorMessage = "suspended: not getting data";
 
-      clearTimeout(suspendTimer);
-      suspendTimer = setTimeout(() => {
-        errorMessage = null;
-      }, suspendDelay);
+      // clearTimeout(suspendTimer);
+      // suspendTimer = setTimeout(() => {
+      //   errorMessage = null;
+      // }, suspendDelay);
       if (debug) console.log("on:suspend");
     }}
     on:stalled={() => {
@@ -246,7 +246,7 @@
 
   <div class="volume">
     <Stop on:click={stopAudio} title="stop"/>
-    
+
     <Range bind:value={$store.volume}
       on:change={() => {
         if (muted) muted = false;

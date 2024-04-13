@@ -7,14 +7,14 @@
     loading, paused, errorMessage,
     ended, cycle = "";
 
-    if (muted) {} // mute error for unused property
+    if (muted || src || title) {} // mute error for unused property
 </script>
 
 
 <div class="info">
-  <div class="grid" style:flex=3>
-    <div class="key">src</div>
-    <div class="value" title={src}>{title}</div>
+  <div class="grid" >
+    <!-- <div class="key">src</div>
+    <div class="value" title={src}>{title}</div> -->
     
     <div class="key" title="Current playback time in seconds">currentTime</div>
     <div class="value">{formatTime(currentTime)}</div>
@@ -40,7 +40,7 @@
     </div>
   </div>
   
-  <div class="grid" style:flex=2>      
+  <div class="grid" >      
     <div class="key" title="Boolean: toggled by loadstart and canplay events">loading</div>
     <div class="value">{loading}</div>
     
@@ -73,8 +73,7 @@
   /* .info {
     margin: 1rem 0;
   } */
-  .errorMessage { 
+  /* .errorMessage { 
     grid-column: span 2;
-    /* flex-basis: 100%;  */
-  }
+  } */
 </style>

@@ -54,7 +54,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0 1rem;
+  gap: 1rem;
 
 }
 
@@ -120,7 +120,7 @@ footer {
   display: flex;
   /* justify-content: auto; */
   align-items: flex-start;
-  gap: 1rem 2rem;
+  gap: 1rem;
   padding: 0 1rem;
 
   flex-wrap: wrap;
@@ -128,7 +128,15 @@ footer {
   & .grid {
     display: grid;
     grid-template-columns: max-content max-content;
-    gap: 0 1rem;
+    gap: 0 1ch;
+  }
+  & .grid:first-of-type {
+    flex: 1;
+  }
+
+  & .grid .errorMessage { 
+    grid-column: span 2;
+    /* flex-basis: 100%;  */
   }
 }
 

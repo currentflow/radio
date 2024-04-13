@@ -83,7 +83,7 @@ export let stations = [
   // }, 
   {
     title: "KRXO", description:
-    "Local Classic Rock",
+    "Classic Rock",
     url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
   }, 
   {
