@@ -85,13 +85,22 @@ footer {
 
   border-radius: 0 0 0.5rem 0.5rem;
   padding: 0.5rem 1rem;
-
-  & .volume {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0 1ch;    
-  }
+}
+.btn_play {
+  font-size: 2em;
+}
+.btn_stop {
+  font-size: 1.5em;
+}
+.btn_mute {
+  font-size: 1.5em;
+}
+.volume {
+  /* flex: 2; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0 1ch;    
 }
 
 @media (max-width: 480px) {
@@ -140,12 +149,6 @@ footer {
   /* margin-top: 25%; */
 }
 
-.btn_play {
-  font-size: 2em;
-}
-.btn_mute {
-  font-size: 1.5em;
-}
 
 @media (min-height: 480px) {
   header h1 {
@@ -154,4 +157,8 @@ footer {
   .btn_play {
     font-size: 3em;
   }
+}
+
+button.unset:active {
+  opacity: 0.6;
 }

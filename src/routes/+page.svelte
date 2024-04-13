@@ -1,30 +1,35 @@
 <script>
   import { onDestroy, onMount, tick } from "svelte";
-  import { store, stations, formatTime, dbltap } from "$lib/store";
+  import { store, stations, dbltap } from "$lib/store";
   import Play from "$lib/components/Play.svelte";
+  import Stop from "$lib/components/Stop.svelte";
   import Mute from "$lib/components/Mute.svelte";
   import Range from "$lib/components/Range.svelte";
   import Info from "$lib/components/Info.svelte";
 
-
   let title = "Radio",
       selectedStation = null,
-      timer, timerDelay = 182000,
+      pauseTimer, pauseDelay = 120000,
+      stallTimer, stallDelay = 10000,
+      errorTimer, errorDelay = 10000,
       debug = true,
-      message = null;
+      errorMessage = null;
       
   let audioObj,
       loading = false,
       paused,
       currentTime, duration,
-      ended, played, cycle, 
-      errorMessage = null,
-			muted = false;
+      ended, played, cycle,
+			muted = false,
+      networkState, readyState;
 
   $: { if (audioObj) {
     audioObj.volume = $store.volume;
-    paused = audioObj.paused;
   }}
+  $: { 
+    paused = audioObj?.paused;
+    networkState = audioObj?.networkState;
+  }
 
   async function loadStation(station = stations[0]) {
     if (!paused) stopAudio();
@@ -47,10 +52,10 @@
         audioObj.play();
       } else {
         audioObj.pause();
-        clearTimeout(timer);
-				timer = setTimeout(() => {
+        clearTimeout(pauseTimer);
+				pauseTimer = setTimeout(() => {
 					stopAudio();
-				}, timerDelay);
+				}, pauseDelay);
       }
     } catch (err) {
       console.error("togglePlay", err);
@@ -64,19 +69,14 @@
 			audioObj.removeAttribute('src');
 		  selectedStation = null;
       // reset..
-      // paused = audioObj?.paused;
       duration = audioObj?.duration;
-		} catch (error) { 
-      console.log("stopAudio: Error"); 
+      errorMessage = null;
+		} catch (err) { 
+      console.log("stopAudio: Error", err); 
+      errorMessage = err;
     }
 	}
 
-  // function handleError() {
-  //   audioObj.paused = true;
-  //   paused = audioObj?.paused;
-  //   console.log("DEBUG");
-  //   stopAudio();
-  // }
 
   onMount(() => {
     audioObj.crossOrigin = "anonymous";
@@ -115,12 +115,11 @@
   </button>
   {/each}
 
-
   {#if debug}
     <Info
       src={audioObj?.src}
-      networkState={audioObj?.networkState} 
-      readyState={audioObj?.readyState}
+      networkState={networkState} 
+      readyState={readyState}
       currentTime={currentTime} 
       duration={duration}
       {loading} {paused}
@@ -137,10 +136,11 @@
     bind:paused
     bind:ended
     bind:played
+    bind:readyState
     bind:volume={$store.volume}
     bind:muted
     on:loadstart={() => {
-      message = null;
+      errorMessage = null;
       loading = true;
       cycle = "loadstart";
       if (debug) console.log("on:loadstart");
@@ -150,18 +150,19 @@
       if (debug) console.log("on:waiting");
     }}
     on:canplay={() => {
-      loading = false;
       cycle = "canplay";
+      loading = false;
       errorMessage = null;
       if (debug) console.log("on:canplay");
     }}
     on:play={() => {
       cycle = "play";
+      errorMessage = null;
       if (debug) console.log("on:play");
     }}
     on:playing={() => {
-      errorMessage = null;
       cycle = "playing";
+      errorMessage = null;
       if (debug) console.log("on:playing");
     }}
     on:pause={() => {
@@ -186,19 +187,31 @@
     on:stalled={() => {
       cycle = "stalled";
       loading = false;
-      errorMessage = "stalled: data is not available";
+      errorMessage = "stalled: data not available";
+      
+      clearTimeout(stallTimer);
+      stallTimer = setTimeout(() => {
+        errorMessage = null;
+      }, stallDelay);
+        
       if (debug) console.log("on:stalled");
     }}
     on:abort={() => {
       cycle = "abort";
       loading = false;
-      errorMessage = "loading aborted";
+      // errorMessage = "loading aborted";
       if (debug) console.log("on:abort");
     }}
     on:error={(error) => {
       cycle = "error";
       loading = false;
       errorMessage = audioObj?.error.message;
+
+      clearTimeout(errorTimer);
+      errorTimer = setTimeout(() => {
+        stopAudio();
+      }, errorDelay);
+
       if (debug) console.log("on:error", error);
     }}
     on:timeupdate={() => {
@@ -213,19 +226,21 @@
 </main>
 
 <footer>
-  <Play playing={!paused} 
-    on:pointerdown={() => togglePlay()}
-    on:dbltap={() => stopAudio()} />
+  <Play playing={!paused} title={paused ? "play" : "pause"}
+    on:click={() => togglePlay()} />
 
-  <small style="align-self: flex-end">
+  <!-- <small style="align-self: flex-end">
     {formatTime(currentTime)} / {formatTime(duration)}
-  </small>
+  </small> -->
 
   <div class="volume">
+    <Stop on:click={stopAudio} title="stop"/>
     <Range bind:value={$store.volume}
-      on:change={() => console.log("Volume:", $store.volume)} />
+      on:change={() => {
+        if (muted) muted = false;
+      }} />
       
-    <Mute bind:muted />
+    <Mute bind:muted title={muted ? "un-mute" : "mute"} />
   </div>
 </footer>
 

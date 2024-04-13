@@ -1,34 +1,20 @@
 <script>
-  import { formatTime } from "$lib/store";
+  import { formatTime, round } from "$lib/store";
   export let src,
     networkState, readyState,
     currentTime, duration, 
-    // volume, muted,
+    volume, muted,
     loading, paused, errorMessage,
-    ended, cycle;
+    ended, cycle = "";
 
-  // function formatTime(secs) {
-  //   const hours = secs >= 3600 ? Math.floor(secs / 3600) : 0;
-  //   const minutes = Math.floor((secs - hours * 3600) / 60);
-  //   const seconds = Math.floor(secs % 60);
-  //   const paddedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-  //   const paddedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-  //   let res = hours
-  //     ? `${hours}:${paddedMinutes}:${paddedSeconds}`
-  //     : `${minutes}:${paddedSeconds}`;
-
-  //   return res;
-  // }
-
+    if (muted) {} // mute error for unused property
 </script>
 
 
-<div class="flex">
+<div class="info flex">
   <div class="grid" style:flex=3>
     <div class="key">src</div>
-    <!-- <div class="value" title={src}>{src || "empty string"}</div> -->
-    <div class="value" title={src}>...{src?.split("/").pop() || "empty string"}</div>
+    <div class="value" title={src}>...{src?.split("/").pop() || ""}</div>
     
     <div class="key" title="Current playback time in seconds">currentTime</div>
     <div class="value">{formatTime(currentTime)}</div>
@@ -47,7 +33,7 @@
     2 = HAVE_CURRENT_DATA - data for the current playback position is available, but not enough data to play next frame/millisecond
     3 = HAVE_FUTURE_DATA - data for the current and at least the next frame is available
     4 = HAVE_ENOUGH_DATA - enough data available to start playing">readyState</div>
-    <div class="value">{readyState} </div> 
+    <div class="value">{readyState}</div> 
   </div>
   
   <div class="grid" style:flex=2>      
@@ -59,23 +45,26 @@
                  
     <div class="key" title="Boolean: the element has finished playing">ended</div>
     <div class="value">{ended}</div>  
+    
+    <div class="key" title="volume">volume</div>
+    <div class="value">{muted ? "muted" : round(volume*10, 1)}</div>
                  
     <div class="key" title="Triggered by element events">cycle</div>
-    <code class="value">{cycle}</code>
-
-       
-    {#if errorMessage}
-    <div class="errorMessage" title="errorMessage">
-      {errorMessage}
-    </div>
-    {/if}
+    <div class="value">{cycle}..</div>
   </div>
+
+  {#if errorMessage}
+  <div class="errorMessage" title="error" >
+    {errorMessage}
+  </div>
+  {/if}
 </div>
 
 
+
 <style>
-  .flex {
+  .info {
     margin: 1rem 0;
   }
-  .errorMessage { grid-column: span 2; }
+  .errorMessage { flex-basis: 100%; }
 </style>

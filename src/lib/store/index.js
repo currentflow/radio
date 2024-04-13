@@ -110,13 +110,10 @@ export function formatTime(seconds) {
   return `${minutes}:${seconds}`;
 }
 
+export function round(num,d = 0) {
+  return Math.round((num) * (Math.pow(10, d))) / (Math.pow(10, d));
+}
+
 export {longpress} from "./longpress";
 export {dbltap} from "./dbltap";
 
-
-
-/*
-- Source to find stream urls:
-  - https://www.radio-browser.info
-  - https://fmstream.org
-*/
