@@ -6,7 +6,7 @@ import { version } from '$app/environment'
 let init = ({ 
   storage_name: "radio_store",
   version,
-  volume: 0.5,
+  volume: 1,
 });
 
 // https://tunein.cdnstream1.com/3511_96.mp3

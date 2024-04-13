@@ -1,6 +1,6 @@
 <script>
   import { formatTime, round } from "$lib/store";
-  export let src,
+  export let src, title,
     networkState, readyState,
     currentTime, duration, 
     volume, muted,
@@ -11,10 +11,10 @@
 </script>
 
 
-<div class="info flex">
+<div class="info">
   <div class="grid" style:flex=3>
     <div class="key">src</div>
-    <div class="value" title={src}>...{src?.split("/").pop() || ""}</div>
+    <div class="value" title={src}>{title}</div>
     
     <div class="key" title="Current playback time in seconds">currentTime</div>
     <div class="value">{formatTime(currentTime)}</div>
@@ -34,6 +34,10 @@
     3 = HAVE_FUTURE_DATA - data for the current and at least the next frame is available
     4 = HAVE_ENOUGH_DATA - enough data available to start playing">readyState</div>
     <div class="value">{readyState}</div> 
+
+    <div class="errorMessage" title="error" >
+      {errorMessage ? errorMessage : "..."}
+    </div>
   </div>
   
   <div class="grid" style:flex=2>      
@@ -47,24 +51,30 @@
     <div class="value">{ended}</div>  
     
     <div class="key" title="volume">volume</div>
-    <div class="value">{muted ? "muted" : round(volume*10, 1)}</div>
+    <div class="value">{muted ? "muted" : volume}</div>
+    <!-- <div class="value">{muted ? "muted" : round(volume*10, 1)}</div> -->
                  
     <div class="key" title="Triggered by element events">cycle</div>
     <div class="value">{cycle}..</div>
+
+    <!-- <div class="errorMessage" title="error" >
+      {errorMessage ? errorMessage : "errorMessage"}
+    </div> -->
   </div>
 
-  {#if errorMessage}
-  <div class="errorMessage" title="error" >
-    {errorMessage}
-  </div>
-  {/if}
+  <!-- <div class="errorMessage" title="error" >
+    {errorMessage ? errorMessage : "errorMessage"}
+  </div> -->
 </div>
 
 
 
 <style>
-  .info {
+  /* .info {
     margin: 1rem 0;
+  } */
+  .errorMessage { 
+    grid-column: span 2;
+    /* flex-basis: 100%;  */
   }
-  .errorMessage { flex-basis: 100%; }
 </style>

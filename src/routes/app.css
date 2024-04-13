@@ -50,6 +50,12 @@ header {
 main {
   overflow-y: auto;  
   scrollbar-width: thin;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0 1rem;
+
 }
 
 .station {
@@ -90,10 +96,10 @@ footer {
   font-size: 2em;
 }
 .btn_stop {
-  font-size: 1.5em;
+  font-size: 1.75em;
 }
 .btn_mute {
-  font-size: 1.5em;
+  font-size: 1.75em;
 }
 .volume {
   /* flex: 2; */
@@ -105,23 +111,28 @@ footer {
 
 @media (max-width: 480px) {
   [type=range] { display: none;}
+  .volume {
+    gap: 0 2rem;
+  }
 }
 
-.flex {
+.info {
   display: flex;
   /* justify-content: auto; */
   align-items: flex-start;
   gap: 1rem 2rem;
-  padding: 1rem;
+  padding: 0 1rem;
 
   flex-wrap: wrap;
+
+  & .grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 0 1rem;
+  }
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  gap: 0 1rem;
-}
+
 
 .key, .value { cursor: default; }
 .key::after {
@@ -156,6 +167,9 @@ footer {
   }
   .btn_play {
     font-size: 3em;
+  }
+  .btn_mute {
+    font-size: 1.5em;
   }
 }
 

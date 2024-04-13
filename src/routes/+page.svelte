@@ -11,6 +11,7 @@
       selectedStation = null,
       pauseTimer, pauseDelay = 120000,
       stallTimer, stallDelay = 10000,
+      suspendTimer, suspendDelay = 10000,
       errorTimer, errorDelay = 10000,
       debug = true,
       errorMessage = null;
@@ -104,28 +105,31 @@
 </header>
 
 <main class="list">
-  {#each stations as station}
-  <button class:selected={station === selectedStation}
-    class="unset station"
-    title={station.url}
-    on:click={() => loadStation(station)}
-  >
-    <div class="title">{station.title}</div>
-    <div class="description">{station.description}</div>
-  </button>
-  {/each}
+  <div class="stations">
+    {#each stations as station}
+    <button class:selected={station === selectedStation}
+      class="unset station"
+      title={station.url}
+      on:click={() => loadStation(station)}
+    >
+      <div class="title">{station.title}</div>
+      <div class="description">{station.description}</div>
+    </button>
+    {/each}
+  </div>
 
   {#if debug}
-    <Info
-      src={audioObj?.src}
-      networkState={networkState} 
-      readyState={readyState}
-      currentTime={currentTime} 
-      duration={duration}
-      {loading} {paused}
-      {ended} {cycle}
-      volume={$store.volume} {muted} {errorMessage}
-    />
+  <Info
+    src={audioObj?.src}
+    title={selectedStation?.title ?? "..."}
+    networkState={networkState} 
+    readyState={readyState}
+    currentTime={currentTime} 
+    duration={duration}
+    {loading} {paused}
+    {ended} {cycle}
+    volume={$store.volume} {muted} {errorMessage}
+  />
   {/if}
 
   <audio
@@ -182,6 +186,11 @@
       cycle = "suspend";
       loading = false;
       errorMessage = "suspended: not getting data";
+
+      clearTimeout(suspendTimer);
+      suspendTimer = setTimeout(() => {
+        errorMessage = null;
+      }, suspendDelay);
       if (debug) console.log("on:suspend");
     }}
     on:stalled={() => {
@@ -221,7 +230,6 @@
       // if (debug) console.log("on:volumechange");
     }}
   >
-    <p><code>an error occurred</code></p>
   </audio>
 </main>
 
@@ -233,8 +241,12 @@
     {formatTime(currentTime)} / {formatTime(duration)}
   </small> -->
 
+
+  <!-- <Stop on:click={stopAudio} title="stop"/> -->
+
   <div class="volume">
     <Stop on:click={stopAudio} title="stop"/>
+    
     <Range bind:value={$store.volume}
       on:change={() => {
         if (muted) muted = false;
