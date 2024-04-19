@@ -2,15 +2,17 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="/radio/favicon.svg" />
-		<link rel="manifest" href="manifest.json" />
+		<link rel="icon" href="/radio/favicon.ico" sizes="48x48"/>
+		<link rel="icon" href="/radio/favicon.svg" sizes="any" type="image/svg+xml"/>
+		<link rel="apple-touch-icon" href="/radio/apple-touch-icon-180x180.png"/>
+		<link rel="manifest" href="/radio/manifest.json"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
-		<link rel="modulepreload" href="/radio/_app/immutable/entry/start.Dd6cRAmu.js">
-		<link rel="modulepreload" href="/radio/_app/immutable/chunks/entry.Ci8YQ8du.js">
+		<link rel="modulepreload" href="/radio/_app/immutable/entry/start.DbNj0TBg.js">
+		<link rel="modulepreload" href="/radio/_app/immutable/chunks/entry.B_yLDxbm.js">
 		<link rel="modulepreload" href="/radio/_app/immutable/chunks/scheduler.H4Y9z2Ct.js">
 		<link rel="modulepreload" href="/radio/_app/immutable/chunks/environment.Bnq5FzLQ.js">
-		<link rel="modulepreload" href="/radio/_app/immutable/entry/app.DEYd5EMw.js">
+		<link rel="modulepreload" href="/radio/_app/immutable/entry/app.B1XdyVKu.js">
 		<link rel="modulepreload" href="/radio/_app/immutable/chunks/index.BTjVifcI.js">
 	</head>
 	<body data-sveltekit-preload-data="tap">
@@ -25,8 +27,8 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("/radio/_app/immutable/entry/start.Dd6cRAmu.js"),
-						import("/radio/_app/immutable/entry/app.DEYd5EMw.js")
+						import("/radio/_app/immutable/entry/start.DbNj0TBg.js"),
+						import("/radio/_app/immutable/entry/app.B1XdyVKu.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element);
 					});

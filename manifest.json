@@ -2,24 +2,33 @@
   "name": "Radio",
   "short_name": "Radio",
   "start_url": "https://currentflow.github.io/radio/",
-  "scope": "/radio/",
   "display": "standalone",
+  "orientation": "any",
   "theme_color": "#000000",
   "background_color": "#000000",
-  "description": "Educational HTML5 Audio Test ",
-  "orientation": "any",
+  "description": "WWW.radio for personal and educational use",
   "icons": [
     {
-      "src": "./icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "src": "pwa-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
     },
     {
-      "src": "./icon-512.png",
+      "src": "pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "pwa-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"  
+    },
+    {
+      "src": "maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
