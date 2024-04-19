@@ -22,7 +22,7 @@
 
     height: 1rem;
     width: 100%;
-    min-width: 100px; 
+    min-width: 75px; 
 
     background: var(--background-color);
     border-radius: 0.5rem;

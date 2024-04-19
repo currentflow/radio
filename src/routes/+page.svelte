@@ -53,14 +53,21 @@
         audioObj.play();
       } else {
         audioObj.pause();
-        clearTimeout(pauseTimer);
-				pauseTimer = setTimeout(() => {
-					stopAudio();
-				}, pauseDelay);
+        // clearTimeout(pauseTimer);
+				// pauseTimer = setTimeout(() => {
+				// 	stopAudio();
+				// }, pauseDelay);
       }
     } catch (err) {
       console.error("togglePlay", err);
     }
+  }
+
+  function setPauseTimer() {
+    clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(() => {
+      stopAudio();
+    }, pauseDelay);
   }
 
   async function stopAudio() {
@@ -89,6 +96,7 @@
 			audioObj.src = null;
       audioObj.removeAttribute("src");
       cycle = "destroyed";
+      clearTimeout(pauseTimer);
     };
   });
 </script>
@@ -171,6 +179,7 @@
     }}
     on:pause={() => {
       cycle = "pause";
+      setPauseTimer();
       if (debug) console.log("on:pause");
     }}
     on:ended={() => {
@@ -234,16 +243,9 @@
 </main>
 
 <footer>
-  <Play playing={!paused} title={paused ? "play" : "pause"}
+  <Play playing={!paused} 
+    title={paused ? "play" : "pause"}
     on:click={() => togglePlay()} />
-
-  <!-- <small style="align-self: flex-end">
-    {formatTime(currentTime)} / {formatTime(duration)}
-  </small> -->
-
-
-  <!-- <Stop on:click={stopAudio} title="stop"/> -->
-
   <div class="volume">
     <Stop on:click={stopAudio} title="stop"/>
 
