@@ -87,6 +87,11 @@ export let stations = [
     url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
   }, 
   {
+    title: "KZTH",
+    description: "Christian",
+    url: "https://klvv-thehouse.streamguys1.com/TheHouse64kAAC"
+  },
+  {
     title: "C-SPAN",
     description: "C-Span",
     url: "https://playerservices.streamtheworld.com/api/livestream-redirect/CSPANRADIO.mp3"
@@ -114,6 +119,5 @@ export function round(num,d = 0) {
   return Math.round((num) * (Math.pow(10, d))) / (Math.pow(10, d));
 }
 
-export {longpress} from "./longpress";
 export {dbltap} from "./dbltap";
 

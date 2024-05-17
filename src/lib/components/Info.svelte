@@ -13,9 +13,6 @@
 
 <div class="info">
   <div class="grid" >
-    <!-- <div class="key">src</div>
-    <div class="value" title={src}>{title}</div> -->
-    
     <div class="key" title="Current playback time in seconds">currentTime</div>
     <div class="value">{formatTime(currentTime)}</div>
     
@@ -52,28 +49,8 @@
     
     <div class="key" title="volume">volume</div>
     <div class="value">{muted ? "muted" : volume}</div>
-    <!-- <div class="value">{muted ? "muted" : round(volume*10, 1)}</div> -->
                  
     <div class="key" title="Triggered by element events">cycle</div>
     <div class="value">{cycle}..</div>
-
-    <!-- <div class="errorMessage" title="error" >
-      {errorMessage ? errorMessage : "errorMessage"}
-    </div> -->
   </div>
-
-  <!-- <div class="errorMessage" title="error" >
-    {errorMessage ? errorMessage : "errorMessage"}
-  </div> -->
 </div>
-
-
-
-<style>
-  /* .info {
-    margin: 1rem 0;
-  } */
-  /* .errorMessage { 
-    grid-column: span 2;
-  } */
-</style>

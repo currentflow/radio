@@ -53,10 +53,6 @@
         audioObj.play();
       } else {
         audioObj.pause();
-        // clearTimeout(pauseTimer);
-				// pauseTimer = setTimeout(() => {
-				// 	stopAudio();
-				// }, pauseDelay);
       }
     } catch (err) {
       console.error("togglePlay", err);
@@ -194,12 +190,6 @@
     on:suspend={() => {
       cycle = "suspend";
       loading = false;
-      // errorMessage = "suspended: not getting data";
-
-      // clearTimeout(suspendTimer);
-      // suspendTimer = setTimeout(() => {
-      //   errorMessage = null;
-      // }, suspendDelay);
       if (debug) console.log("on:suspend");
     }}
     on:stalled={() => {
@@ -217,7 +207,6 @@
     on:abort={() => {
       cycle = "abort";
       loading = false;
-      // errorMessage = "loading aborted";
       if (debug) console.log("on:abort");
     }}
     on:error={(error) => {
@@ -231,12 +220,6 @@
       }, errorDelay);
 
       if (debug) console.log("on:error", error);
-    }}
-    on:timeupdate={() => {
-      // if (debug) console.log("on:timeupdate");
-    }}
-    on:volumechange={() => {
-      // if (debug) console.log("on:volumechange");
     }}
   >
   </audio>
