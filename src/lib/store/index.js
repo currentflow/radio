@@ -39,11 +39,11 @@ export let stations = [
     description: "News & Politics",
     url: "https://tunein.cdnstream1.com/3511_96.mp3"    
   }, 
-  { 
-    title: "MSNBC2",
-    description: "News & Politics",
-    url: "http://peridot.streamguys.com:7850/live"    
-  }, 
+  // { 
+  //   title: "MSNBC2",
+  //   description: "News & Politics",
+  //   url: "http://peridot.streamguys.com:7850/live"    
+  // }, 
   { 
     title: "CNN",
     description: "News & Politics",
@@ -81,11 +81,11 @@ export let stations = [
   //   "Local Talk Radio",
   //   url: "https://13693.live.streamtheworld.com/KOKCAMAAC.aac"
   // }, 
-  {
-    title: "KRXO", description:
-    "Classic Rock",
-    url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
-  }, 
+  // {
+  //   title: "KRXO", description:
+  //   "Classic Rock",
+  //   url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
+  // }, 
   {
     title: "KZTH",
     description: "Christian",
@@ -99,7 +99,7 @@ export let stations = [
   {
     title: "NOAA",
     description: "OKC Weather",
-    url: "https://broadcastify.cdnstream1.com/32127"
+    url: "https://wxradio.org/OK-OklahomaCity-WXK85"
   },
 ];
 
