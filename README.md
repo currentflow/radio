@@ -3,7 +3,7 @@
 ### Todo
 - [ ] limit pause allowed
 - [ ] limit loading, stalled, error, waiting
-- [ ] 
+- [ ] set version in service worker for update to take
 - [ ] 
 - [ ] 
 
