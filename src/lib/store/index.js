@@ -86,11 +86,16 @@ export let stations = [
   //   "Classic Rock",
   //   url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
   // }, 
-  {
-    title: "KZTH",
-    description: "Christian",
-    url: "https://klvv-thehouse.streamguys1.com/TheHouse64kAAC"
-  },
+  // {
+  //   title: "KZTH",
+  //   description: "Christian",
+  //   url: "https://klvv-thehouse.streamguys1.com/TheHouse64kAAC"
+  // },
+  { 
+    title: "KMGL",
+    description: "Adult Contemporary",
+    url: "https://23263.live.streamtheworld.com/KMGLFMAAC.aac"
+  }, 
   {
     title: "C-SPAN",
     description: "C-Span",
