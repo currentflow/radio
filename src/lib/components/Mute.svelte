@@ -37,7 +37,4 @@
     scale: 1;
     opacity: 1;
   }
-	/* .muted {
-		opacity: 0.5;
-	} */
 </style>

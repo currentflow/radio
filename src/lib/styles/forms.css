@@ -40,15 +40,15 @@ button, select, textarea), .button {
   cursor: pointer;
   padding: 0 0.8em ;
 }
-:where(button:hover:not(:active, :disabled),
+/* :where(button:hover:not(:active, :disabled),
   [type="button"]:hover:not(:active, :disabled),
   [type="submit"]:hover:not(:active, :disabled),
   [type="reset"]:hover:not(:active, :disabled),
   [type="color"]:hover:not(:active, :disabled)),
   .button:hover:not(:active, :disabled),
   .btn:hover:not(:active, :disabled) {
-  /* opacity: 0.6; */
-}
+  opacity: 0.6;
+} */
 :where([type="color"]) {  
   width: 3em; 
   cursor: pointer; 

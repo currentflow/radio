@@ -9,8 +9,6 @@ let init = ({
   volume: 1,
 });
 
-// https://tunein.cdnstream1.com/3511_96.mp3
-
 // Check browser for localStorage:
 // if storage_name exists in localStorage - 
 // and version matches => use storage...
@@ -38,12 +36,7 @@ export let stations = [
     title: "MSNBC",
     description: "News & Politics",
     url: "https://tunein.cdnstream1.com/3511_96.mp3"    
-  }, 
-  // { 
-  //   title: "MSNBC2",
-  //   description: "News & Politics",
-  //   url: "http://peridot.streamguys.com:7850/live"    
-  // }, 
+  },  
   { 
     title: "CNN",
     description: "News & Politics",
@@ -64,33 +57,6 @@ export let stations = [
     description: "NPR",
     url: "https://streams.kqed.org/kqedradio"
   }, 
-
-  // { 
-  //   title: "Tesla",
-  //   description: "Test",
-  //   url: "https://tunein.streamguys1.com/msnbc-tesla"
-  // }, 
-  // { 
-  //   title: "Peridot",
-  //   description: "Test",
-  //   url: "http://peridot.streamguys.com:7850/live"
-  // }, 
-
-  // {
-  //   title: "KOKC", description:
-  //   "Local Talk Radio",
-  //   url: "https://13693.live.streamtheworld.com/KOKCAMAAC.aac"
-  // }, 
-  // {
-  //   title: "KRXO", description:
-  //   "Classic Rock",
-  //   url: "https://18393.live.streamtheworld.com/KRXOHD2.mp3"
-  // }, 
-  // {
-  //   title: "KZTH",
-  //   description: "Christian",
-  //   url: "https://klvv-thehouse.streamguys1.com/TheHouse64kAAC"
-  // },
   { 
     title: "KMGL",
     description: "Adult Contemporary",

@@ -1,6 +1,4 @@
-import { build, files } from "$service-worker";
-
-const version = "0.1.3";
+import { build, files, version } from "$service-worker";
 
 // Create a unique cache name for this deployment
 const CACHE = `cache-${version}`;
