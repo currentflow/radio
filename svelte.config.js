@@ -11,10 +11,7 @@ const pkg = JSON.parse(readFileSync(path, 'utf8'));
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter({
-			fallback: '404.html',
-			strict: false
-		}),
+		adapter: adapter(),
 		paths: {
       base: process.env.NODE_ENV === 'production' ? '/radio' : '',
     },
