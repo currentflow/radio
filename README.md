@@ -3,9 +3,10 @@
 ### Todo
 - [ ] limit pause allowed
 - [ ] limit loading, stalled, error, waiting
+- [✔] update dependancies
+- [✔] update streams and version
 - [ ] 
-- [ ] 
-- [ ] 
+
 
 ``` sh
 npm run gh-pages

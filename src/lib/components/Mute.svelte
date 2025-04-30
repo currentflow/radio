@@ -5,7 +5,7 @@
 </script>
 
 <button class="unset btn_mute" {title}
-  style="--duration: {duration};"
+  style="--duration: {duration};" aria-label="mute"
   on:click={() =>  muted = !muted } >
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class:muted>
     <path class="bell" 

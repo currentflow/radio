@@ -2,7 +2,7 @@
   export let title = "";
 </script>
 
-<button class="unset btn_stop" {title}
+<button class="unset btn_stop" {title}  aria-label="stop"
   on:click on:pointerdown>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M6 6h12v12H6z"/>
