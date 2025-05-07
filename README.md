@@ -8,19 +8,8 @@
 - [ ] 
 
 
-```js
-// changed svelte.config - complaint of adaptor arguments
-adapter: adapter({
-  fallback: '404.html',
-  strict: false
-}),
+---
 
-// to
-
-adapter: adapter(),
-```
-
---- 
 
 ``` sh
 npm run gh-pages

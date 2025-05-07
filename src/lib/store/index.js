@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-import { version } from '$app/environment'
+import { version } from '$app/environment';
 
 // store init
 let init = ({ 

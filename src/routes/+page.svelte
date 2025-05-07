@@ -92,7 +92,6 @@
 			audioObj.src = null;
       audioObj.removeAttribute("src");
       cycle = "destroyed";
-      clearTimeout(pauseTimer);
     };
   });
 </script>
@@ -209,6 +208,7 @@
       loading = false;
       if (debug) console.log("on:abort");
     }}
+
     on:error={(error) => {
       cycle = "error";
       loading = false;

@@ -6,7 +6,7 @@
   "orientation": "any",
   "theme_color": "#000000",
   "background_color": "#000000",
-  "description": "WWW.radio for personal and educational use",
+  "description": "Internet radio for educational and personal use",
   "icons": [
     {
       "src": "pwa-64x64.png",
