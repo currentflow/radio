@@ -1,246 +1,208 @@
 <script>
-  import { onDestroy, onMount, tick } from "svelte";
-  import { store, stations, dbltap } from "$lib/store";
+  import { tick } from "svelte";
+  import { store, stations, formatTime } from "$lib/store";
   import Play from "$lib/components/Play.svelte";
   import Stop from "$lib/components/Stop.svelte";
   import Mute from "$lib/components/Mute.svelte";
   import Range from "$lib/components/Range.svelte";
-  import Info from "$lib/components/Info.svelte";
+  import "./app.css";
 
-  let title = "Radio",
-      selectedStation = null,
-      pauseTimer, pauseDelay = 120000,
-      stallTimer, stallDelay = 10000,
-      // suspendTimer, suspendDelay = 10000,
-      errorTimer, errorDelay = 10000,
-      debug = true,
-      errorMessage = null;
-      
-  let audioObj,
-      loading = false,
-      paused,
-      currentTime, duration,
-      ended, played, cycle,
-			muted = false,
-      networkState, readyState;
+  // app level variables
+  let online = $state();
+  let title = $state("Radio"),
+    innerWidth = $state(0),
+    timer = $state(),
+    debug = $state(true),
+    audioEl = $state(),
+    i = $state(0),
+    cycle = $state(),
+    selectedStation = $state.raw(null);
 
-  $: { if (audioObj) {
-    audioObj.volume = $store.volume;
-  }}
-  $: { 
-    paused = audioObj?.paused;
-    networkState = audioObj?.networkState;
+  // two-way bindings
+  let currentTime = $state(0),
+    paused = $state(true),
+    networkState = $state(),
+    muted = $state();
+
+  // readonly properties
+  let src = $state(),
+    buffered = $state(),
+    duration = $state(0),
+    readyState = $state();
+
+    async function loadStation(station = stations[0]) {
+    ++i;
+    try {
+      if (debug) console.log(i, "loadStation");
+      audioEl.load();
+      selectedStation = station;
+      audioEl.src = selectedStation.url;
+      await tick();
+      audioEl.play();
+    } catch (err) {
+      console.error(i, "loadError:", err);
+    }
   }
-
-  async function loadStation(station = stations[0]) {
-    if (!paused) stopAudio();
-
-    errorMessage = null;
-    selectedStation = station;
-    audioObj.src = selectedStation.url;
-    await tick();
-    audioObj.play();
-  }
-
   function togglePlay() {
     if (!selectedStation) {
-      loadStation(stations[0]);
+      loadStation();
       return;
     }
-
     try {
-      if (audioObj.paused) {
-        audioObj.play();
-      } else {
-        audioObj.pause();
-      }
+      paused = !paused;      
     } catch (err) {
-      console.error("togglePlay", err);
+      console.error(i, "togglePlay:", err);
     }
   }
-
-  function setPauseTimer() {
-    clearTimeout(pauseTimer);
-    pauseTimer = setTimeout(() => {
-      stopAudio();
-    }, pauseDelay);
-  }
-
-  async function stopAudio() {
-		try {
-			audioObj.pause();
-			audioObj.src = null;
-			audioObj.removeAttribute('src');
-		  selectedStation = null;
-      // reset..
-      duration = audioObj?.duration;
-      errorMessage = null;
-		} catch (err) { 
-      console.log("stopAudio: Error", err); 
-      errorMessage = err;
+  function stopAudio() {
+    ++i;
+    try {
+      audioEl.src = null;
+      audioEl.removeAttribute("src");
+      selectedStation = null;
+      currentTime = 0;
+      duration = 0;
+      audioEl.load();
+      paused = audioEl.paused;
+    } catch (err) {
+      console.error(i, "stopError:", err);
     }
-	}
-
-
-  onMount(() => {
-    audioObj.crossOrigin = "anonymous";
-  })
-
-  onDestroy(() => {
-    if (audioObj) {
-			audioObj.pause();
-			audioObj.src = null;
-      audioObj.removeAttribute("src");
-      cycle = "destroyed";
-    };
-  });
+  }
 </script>
 
+<svelte:window bind:online bind:innerWidth />
 
-<header>
-  <h1>{selectedStation?.title ?? title}</h1>
+<div class="app">
+  {#if online}
+    <div class="panel header">
+      <div class="title">{selectedStation?.title || title}</div>
+      <button class="unset version"
+        ondblclick={() => debug = !debug}>v: {$store.version}</button>
+    </div>
 
-  <button class="unset" use:dbltap
-    on:dbltap={() => debug = !debug}
-    style="height: 100%;padding: 0 1ch;" >
-    <small>v: {$store.version}</small>
-  </button>
-</header>
+    <div class="panel stations">
+      <div class="flex-item">
+        {#each stations as station}
+        <button class="unset station"
+          class:active={selectedStation === station}
+          onclick={() => {
+            selectedStation = station;
+            loadStation(selectedStation);
+          }}>
+          <div class="title">{station.title}</div>
+          <div class="description">{station.description}</div>
+        </button>
+        {/each}
+      </div> <!-- flex-item -->
 
-<main class="list">
-  <div class="stations">
-    {#each stations as station}
-    <button class:selected={station === selectedStation}
-      class="unset station"
-      title={station.url}
-      on:click={() => loadStation(station)}
-    >
-      <div class="title">{station.title}</div>
-      <div class="description">{station.description}</div>
-    </button>
-    {/each}
-  </div>
+      <div class="flex-item">
+        {#if debug}
+        <div class="info">
+          <div class="column">
+            <div class="key">currentTime</div>
+            <div class="value">{formatTime(currentTime) || "..."}</div>
+          
+            <div class="key">duration</div>
+            <div class="value">{formatTime(duration) || "..."}</div>
+          
+            <div class="key">networkState</div>
+            <div class="value">{audioEl?.networkState}</div>
+          
+            <div class="key">readyState</div>
+            <div class="value">{readyState}</div>            
+          </div> <!-- column -->
+          
+          <div class="column">
+            <div class="key">paused</div>
+            <div class="value">{paused}</div>
+          
+            <div class="key">volume</div>
+            <div class="value">{muted ? "muted" : $store.volume}</div>
+          
+            <div class="key">cycle</div>
+            <div class="value">{cycle || "..."}</div>            
+          </div> <!-- column -->
+        </div> <!-- info -->
+        {/if}
+      </div> <!-- flex-item -->
+    </div> <!-- stations -->
 
-  {#if debug}
-  <Info
-    src={audioObj?.src}
-    title={selectedStation?.title ?? "..."}
-    networkState={networkState} 
-    readyState={readyState}
-    currentTime={currentTime} 
-    duration={duration}
-    {loading} {paused}
-    {ended} {cycle}
-    volume={$store.volume} {muted} {errorMessage}
-  />
+    <div class="panel footer">
+      <Play playing={!paused} onclick={togglePlay} />
+
+      <div class="group">
+        <Stop onclick={stopAudio} />
+        <Range bind:value={$store.volume}
+          oninput={() => (muted = false)} />
+        <Mute {muted} onclick={() => muted = !muted} />
+      </div>
+    </div>
+  {:else}
+  <div class="offline panel">
+    <div>..Offline</div>
+  </div>  
   {/if}
+</div>
 
-  <audio
-    crossorigin="anonymous"
-    bind:this={audioObj}
-    bind:currentTime
-    bind:duration
-    bind:paused
-    bind:ended
-    bind:played
-    bind:readyState
-    bind:volume={$store.volume}
-    bind:muted
-    on:loadstart={() => {
-      errorMessage = null;
-      loading = true;
-      cycle = "loadstart";
-      if (debug) console.log("on:loadstart");
-    }}
-    on:waiting={() => {
-      cycle = "waiting";
-      if (debug) console.log("on:waiting");
-    }}
-    on:canplay={() => {
-      cycle = "canplay";
-      loading = false;
-      errorMessage = null;
-      if (debug) console.log("on:canplay");
-    }}
-    on:play={() => {
-      cycle = "play";
-      errorMessage = null;
-      if (debug) console.log("on:play");
-    }}
-    on:playing={() => {
-      cycle = "playing";
-      errorMessage = null;
-      if (debug) console.log("on:playing");
-    }}
-    on:pause={() => {
-      cycle = "pause";
-      setPauseTimer();
-      if (debug) console.log("on:pause");
-    }}
-    on:ended={() => {
-      cycle = "ended";
-      errorMessage = "ended";
-      if (debug) console.log("on:ended");
-    }}
-    on:emptied={() => {
-      cycle = "emptied";
-      if (debug) console.log("on:emptied");
-    }}
-    on:suspend={() => {
-      cycle = "suspend";
-      loading = false;
-      if (debug) console.log("on:suspend");
-    }}
-    on:stalled={() => {
-      cycle = "stalled";
-      loading = false;
-      errorMessage = "stalled: data not available";
-      
-      clearTimeout(stallTimer);
-      stallTimer = setTimeout(() => {
-        errorMessage = null;
-      }, stallDelay);
-        
-      if (debug) console.log("on:stalled");
-    }}
-    on:abort={() => {
-      cycle = "abort";
-      loading = false;
-      if (debug) console.log("on:abort");
-    }}
 
-    on:error={(error) => {
-      cycle = "error";
-      loading = false;
-      errorMessage = audioObj?.error.message;
-
-      clearTimeout(errorTimer);
-      errorTimer = setTimeout(() => {
-        stopAudio();
-      }, errorDelay);
-
-      if (debug) console.log("on:error", error);
-    }}
-  >
-  </audio>
-</main>
-
-<footer>
-  <Play playing={!paused} 
-    title={paused ? "play" : "pause"}
-    on:click={() => togglePlay()} />
-  <div class="volume">
-    <Stop on:click={stopAudio} title="stop"/>
-
-    <Range bind:value={$store.volume}
-      on:change={() => {
-        if (muted) muted = false;
-      }} />
-      
-    <Mute bind:muted title={muted ? "un-mute" : "mute"} />
-  </div>
-</footer>
-
-<style>
-
-</style>
+<audio crossorigin="anonymous"
+  bind:this={audioEl}
+  bind:paused
+  bind:currentTime
+  bind:duration
+  bind:readyState
+  bind:volume={$store.volume}
+  bind:muted
+  onplay={() => {
+    ++i; cycle = "play";
+    if (debug) console.log(i, cycle);
+  }}
+  onwaiting={() => {
+    ++i; cycle = "waiting";
+    if (debug) console.log(i, cycle);
+  }}
+  onloadstart={() => {
+    ++i; cycle = "loadstart";
+    if (debug) console.log(i, cycle);
+  }}
+  oncanplay={() => {
+    ++i; cycle = "canplay";
+    if (debug) console.log(i, cycle);
+  }}
+  onplaying={() => {
+    ++i; cycle = "playing";
+    if (debug) console.log(i, cycle);
+  }}
+  onpause={() => {
+    ++i; cycle = "pause";
+    if (debug) console.log(i, cycle);
+    timer = setTimeout(() => {
+      stopAudio();
+    }, 30000);
+  }}
+  onabort={() => {
+    ++i; cycle = "abort";
+    if (debug) console.log(i, cycle);
+  }}
+  onended={() => {
+    ++i; cycle = "ended";
+    if (debug) console.log(i, cycle);
+  }}
+  onsuspend={() => {
+    ++i; cycle = "suspend";
+    if (debug) console.log(i, cycle);
+  }}
+  onstalled={() => {
+    ++i; cycle = "stalled";
+    if (debug) console.log(i, cycle);
+  }}
+  onemptied={() => {
+    ++i; cycle = "emptied";
+    if (debug) console.log(i, cycle);
+  }}
+  onerror={() => {
+    const err = audioEl?.error.message;
+    ++i; cycle = "error" + err;
+    if (debug) console.log(i, cycle, err);
+  }}
+></audio>

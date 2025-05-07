@@ -1,10 +1,7 @@
 # [Radio](https://currentflow.github.io/radio/)
 
 ### Todo
-- [ ] limit pause allowed
-- [ ] limit loading, stalled, error, waiting
-- [✔] update dependancies
-- [✔] update streams and version
+- [✔] Updated to Svelte 5, cleaner code. 5/7/25
 - [ ] 
 
 

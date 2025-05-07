@@ -2,7 +2,6 @@ import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 import { version } from '$app/environment';
 
-// store init
 let init = ({ 
   storage_name: "radio_store",
   version,
@@ -75,20 +74,15 @@ export let stations = [
 ];
 
 
+export function formatTime(time) {
+  if (isNaN(time)) return '...';
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
 
-export function formatTime(seconds) {
-  if (isNaN(seconds)) return '...';
-
-  const minutes = Math.floor(seconds / 60);
-  seconds = Math.floor(seconds % 60);
-  if (seconds < 10) seconds = '0' + seconds;
-
-  return `${minutes}:${seconds}`;
+  return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
+
 
 export function round(num,d = 0) {
   return Math.round((num) * (Math.pow(10, d))) / (Math.pow(10, d));
-}
-
-export {dbltap} from "./dbltap";
-
+} 
