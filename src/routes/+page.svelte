@@ -5,12 +5,10 @@
   import Stop from "$lib/components/Stop.svelte";
   import Mute from "$lib/components/Mute.svelte";
   import Range from "$lib/components/Range.svelte";
-  import "./app.css";
 
   // app level variables
   let online = $state();
   let title = $state("Radio"),
-    innerWidth = $state(0),
     timer = $state(),
     debug = $state(true),
     audioEl = $state(),
@@ -70,79 +68,72 @@
   }
 </script>
 
-<svelte:window bind:online bind:innerWidth />
 
-<div class="app">
-  {#if online}
-    <div class="panel header">
-      <div class="title">{selectedStation?.title || title}</div>
-      <button class="unset version"
-        ondblclick={() => debug = !debug}>v: {$store.version}</button>
+
+
+  <div class="panel header">
+    <div class="title">{selectedStation?.title || title}</div>
+    <button class="unset version"
+      ondblclick={() => debug = !debug}>v: {$store.version}</button>
+  </div>
+
+  <div class="panel stations">
+    <div class="flex-item">
+      {#each stations as station}
+      <button class="unset station"
+        class:active={selectedStation === station}
+        onclick={() => {
+          selectedStation = station;
+          loadStation(selectedStation);
+        }}>
+        <div class="title">{station.title}</div>
+        <div class="description">{station.description}</div>
+      </button>
+      {/each}
+    </div> <!-- flex-item -->
+
+    <div class="flex-item">
+      {#if debug}
+      <div class="info">
+        <div class="column">
+          <div class="key">currentTime</div>
+          <div class="value">{formatTime(currentTime) || "..."}</div>
+        
+          <div class="key">duration</div>
+          <div class="value">{formatTime(duration) || "..."}</div>
+        
+          <div class="key">networkState</div>
+          <div class="value">{audioEl?.networkState}</div>
+        
+          <div class="key">readyState</div>
+          <div class="value">{readyState}</div>            
+        </div> <!-- column -->
+        
+        <div class="column">
+          <div class="key">paused</div>
+          <div class="value">{paused}</div>
+        
+          <div class="key">volume</div>
+          <div class="value">{muted ? "muted" : $store.volume}</div>
+        
+          <div class="key">cycle</div>
+          <div class="value">{cycle || "..."}</div>            
+        </div> <!-- column -->
+      </div> <!-- info -->
+      {/if}
+    </div> <!-- flex-item -->
+  </div> <!-- stations -->
+
+  <div class="panel footer">
+    <Play playing={!paused} onclick={togglePlay} />
+
+    <div class="group">
+      <Stop onclick={stopAudio} />
+      <Range bind:value={$store.volume}
+        oninput={() => (muted = false)} />
+      <Mute {muted} onclick={() => muted = !muted} />
     </div>
-
-    <div class="panel stations">
-      <div class="flex-item">
-        {#each stations as station}
-        <button class="unset station"
-          class:active={selectedStation === station}
-          onclick={() => {
-            selectedStation = station;
-            loadStation(selectedStation);
-          }}>
-          <div class="title">{station.title}</div>
-          <div class="description">{station.description}</div>
-        </button>
-        {/each}
-      </div> <!-- flex-item -->
-
-      <div class="flex-item">
-        {#if debug}
-        <div class="info">
-          <div class="column">
-            <div class="key">currentTime</div>
-            <div class="value">{formatTime(currentTime) || "..."}</div>
-          
-            <div class="key">duration</div>
-            <div class="value">{formatTime(duration) || "..."}</div>
-          
-            <div class="key">networkState</div>
-            <div class="value">{audioEl?.networkState}</div>
-          
-            <div class="key">readyState</div>
-            <div class="value">{readyState}</div>            
-          </div> <!-- column -->
-          
-          <div class="column">
-            <div class="key">paused</div>
-            <div class="value">{paused}</div>
-          
-            <div class="key">volume</div>
-            <div class="value">{muted ? "muted" : $store.volume}</div>
-          
-            <div class="key">cycle</div>
-            <div class="value">{cycle || "..."}</div>            
-          </div> <!-- column -->
-        </div> <!-- info -->
-        {/if}
-      </div> <!-- flex-item -->
-    </div> <!-- stations -->
-
-    <div class="panel footer">
-      <Play playing={!paused} onclick={togglePlay} />
-
-      <div class="group">
-        <Stop onclick={stopAudio} />
-        <Range bind:value={$store.volume}
-          oninput={() => (muted = false)} />
-        <Mute {muted} onclick={() => muted = !muted} />
-      </div>
-    </div>
-  {:else}
-  <div class="offline panel">
-    <div>..Offline</div>
-  </div>  
-  {/if}
-</div>
+  </div>
 
 
 <audio crossorigin="anonymous"
